@@ -1,0 +1,35 @@
+<div class="modal__container">
+<div class="bg-white flex flex-col gap-4 w-[300px] p-3 rounded-xl">
+  <div class="flex items-center justify-between pb-2 border-b-2 border-b-gray-200">
+    <h2 class="text-lg">
+      @if (type==='add'){
+      ایجاد دسته جدید
+    } @else {
+        تغییر دسته بندی
+      }
+    </h2>
+    <ng-icon (click)="closeModal()" class="text-2xl cursor-pointer rounded-full transition-all shadow-gray-300 hover:shadow-lg hover:scale-105 hover:bg-gray-100" name="ionClose"></ng-icon>
+  </div>
+  <form [formGroup]="categoryForm" class="flex flex-col gap-4">
+    <div class="input-group">
+      <input type="text" id="name" placeholder=" " formControlName="name">
+      <label for="name">نام</label>
+      <app-input-errors [control]="categoryForm.get('name')"></app-input-errors>
+    </div>
+    <div class="input-group">
+      <input type="text" id="slug" placeholder=" " formControlName="slug">
+      <label for="slug">شناسه</label>
+      <app-input-errors [control]="categoryForm.get('slug')"></app-input-errors>
+    </div>
+    <div class="input-group">
+      <input type="text" id="description" placeholder=" " formControlName="description">
+      <label for="description">توضیح</label>
+      <app-input-errors [control]="categoryForm.get('description')"></app-input-errors>
+    </div>
+  </form>
+  <div class="flex gap-2">
+    <button (click)="submitHandler()" class="px-2 py-0.5 bg-green-600 text-white  rounded hover:scale-105 transition-transform hover:shadow-lg b">ثبت</button>
+    <button (click)="closeModal()" class="px-2 py-0.5 bg-gray-400 text-white rounded hover:scale-105 transition-transform hover:shadow-lg">لغو</button>
+  </div>
+</div>
+</div>

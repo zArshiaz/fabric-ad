@@ -1,0 +1,13 @@
+<div class="bg-slate-600 rounded-xl p-4">
+  <h3 class="text-xl text-white mb-4">لیست سفارش ها</h3>
+  <div class="flex flex-col gap-2">
+    @for (order of ordersListFiltered() ;track order._id){
+      <app-orders-item [updateOrder]="updateOrderList.bind(this)" [order]="order"></app-orders-item>
+    }
+    @if (!ordersListFiltered().length) {
+      <app-alert type="warning">
+        <p message>سفارشی پیدا نشد</p>
+      </app-alert>
+    }
+  </div>
+</div>

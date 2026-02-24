@@ -1,0 +1,26 @@
+<div class="flex flex-col gap-2 p-2 bg-slate-300 rounded-lg">
+  <div class="flex justify-between">
+    <div class="flex items-center gap-1">
+      <h3 class="text-sm">{{answerData.user.name}}</h3>
+
+        <span [ngClass]="['text-xs rounded-full px-1 border font-light',answerData.status==='active'?'bg-green-50 text-green-600':'bg-orange-50 text-orange-600']">
+        {{answerData.status==='active'?'تایید شده':'در انتظار'}}
+      </span>
+
+    </div>
+    <span class="text-xs text-gray-500">{{answerData.createdAt | jalaliDate:'DD/MMMM/YYYY HH:mm:ss'}}</span>
+  </div>
+  <div>
+{{answerData.text}}
+  </div>
+  <div class="flex gap-3">
+    @if (answerData.status==='draft'){
+      <button (click)="activeAnswer()" class="bg-green-600 text-white px-3 py-0.5 rounded text-sm shadow-gray-600 transition-all hover:scale-105 hover:shadow">
+        تایید
+      </button>
+    }
+    <button (click)="deleteAnswer()" class="bg-red-600 text-white px-3 py-0.5 rounded text-sm shadow-gray-600 transition-all hover:scale-105 hover:shadow">
+      حذف
+    </button>
+  </div>
+</div>

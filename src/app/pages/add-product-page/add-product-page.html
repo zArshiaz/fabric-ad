@@ -1,0 +1,217 @@
+<div class="mb-3">
+  <page-header title="افزودن محصول"></page-header>
+  <form [formGroup]="productForm" class="grid grid-cols-1 gap-3">
+    <div class="  bg-slate-100 rounded-lg p-3">
+      <div class="grid grid-cols-1 md:grid-cols-4  gap-5">
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="text" id="name" formControlName="name" placeholder=" ">
+          <label for="name">نام محصول</label>
+          <app-input-errors class="" [control]="productForm.get('name')"/>
+        </div>
+
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="text" id="slug" formControlName="slug" placeholder=" ">
+          <label for="slug">Slug</label>
+          <app-input-errors class="" [control]="productForm.get('slug')"/>
+        </div>
+
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="number" id="pricePerMeter" formControlName="pricePerMeter" placeholder=" ">
+          <label for="pricePerMeter">Price Per Meter</label>
+          <app-input-errors class="" [control]="productForm.get('pricePerMeter')"/>
+        </div>
+
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="number" id="stockMeters" formControlName="stockMeters" placeholder=" ">
+          <label for="stockMeters">Stock Meters</label>
+          <app-input-errors class="" [control]="productForm.get('stockMeters')"/>
+        </div>
+
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="text" id="brand" formControlName="brand" placeholder=" ">
+          <label for="brand">Brand</label>
+          <app-input-errors class="" [control]="productForm.get('brand')"/>
+        </div>
+
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="text" id="colorName" formControlName="colorName" placeholder=" ">
+          <label for="colorName">رنگ</label>
+          <app-input-errors class="" [control]="productForm.get('colorName')"/>
+        </div>
+
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="text" id="pattern" formControlName="pattern" placeholder=" ">
+          <label for="pattern">Pattern</label>
+          <app-input-errors class="" [control]="productForm.get('pattern')"/>
+        </div>
+
+        <div class="input-group md:col-span-2 lg:col-span-1">
+          <input type="number" id="widthCm" formControlName="widthCm" placeholder=" ">
+          <label for="widthCm">Width Cm</label>
+          <app-input-errors class="" [control]="productForm.get('widthCm')"/>
+        </div>
+
+        <div class="input-group md:col-span-4">
+          <input type="text" id="shortDescription" formControlName="shortDescription" placeholder=" ">
+          <label for="shortDescription">Short Description</label>
+          <app-input-errors class="" [control]="productForm.get('shortDescription')"/>
+        </div>
+
+        <div class="input-group md:col-span-4">
+          <input type="text" id="description" formControlName="description" placeholder=" ">
+          <label for="description">Description</label>
+          <app-input-errors class="" [control]="productForm.get('description')"/>
+        </div>
+
+        <div class="input-group md:col-span-4">
+          <input type="text" id="composition" formControlName="composition" placeholder=" ">
+          <label for="composition">Composition</label>
+          <app-input-errors class="" [control]="productForm.get('composition')"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO -->
+    <div formGroupName="seo" class="  bg-slate-100 rounded-lg p-3 pb-4">
+      <div class="mb-2 text-lg">
+        سئو محصول
+      </div>
+      <div class="grid grid-cols-1 gap-4 ">
+        <div class="input-group">
+          <input type="text" formControlName="metaTitle" id="metaTitle" placeholder=" ">
+          <label for="metaTitle">Meta Title</label>
+          <app-input-errors class="" [control]="productForm.get('seo.metaTitle')"/>
+        </div>
+        <div class="input-group">
+          <input type="text" formControlName="metaDescription" id="metaDescription" placeholder=" ">
+          <label for="metaDescription">Meta Description</label>
+          <app-input-errors class="" [control]="productForm.get('seo.metaDescription')"/>
+        </div>
+      </div>
+    </div>
+
+    <!--    DISCOUNT-->
+    <div formGroupName="discount" class="  bg-slate-100 rounded-lg p-3">
+      <div class="mb-2 text-lg">
+        تخفیف محصول
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-2">
+        <div class="flex gap-3 w-[300px]">
+          <span>
+            تخفیف:
+          </span>
+          <div class="flex gap-2">
+            <label>
+              <input type="radio" name="active" formControlName="active" [value]="true">
+              فعال
+            </label>
+            <label>
+              <input type="radio" name="active" formControlName="active" [value]="false">
+              غیر فعال
+            </label>
+          </div>
+        </div>
+        @if (productForm.get('discount.active')?.value) {
+          <div class="input-group">
+            <input type="number" id="discountPercent" formControlName="percent" placeholder=" ">
+            <label for="discountPercent">درصد تخفیف </label>
+            <app-input-errors class="" [control]="productForm.get('discount.percent')"/>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!--  FINISH -->
+    <div class="  bg-slate-100 rounded-lg p-3" formArrayName="finish">
+      <div class="mb-2 text-lg">
+        ویژگی های محصول
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-2 my-2">
+        @for (f of finishes.controls; track i; let i = $index) {
+          <div class="input-group w-auto flex items-center">
+            <input [formControlName]="i" type="text" placeholder=" " id="finish-{{i}}">
+            <label for="finish-{{i}}">Finish {{ i + 1 }}</label>
+            <button class="text-red-400 text-lg flex items-center transition-colors hover:text-red-500" type="button"
+                    (click)="removeFinish(i)">
+              <ng-icon name="heroTrash"></ng-icon>
+            </button>
+          </div>
+        }
+      </div>
+      <div>
+        <button class="bg-slate-700 text-white py-1 px-2 rounded-lg" type="button" (click)="addFinish()">افزودن ویژگی
+        </button>
+      </div>
+    </div>
+
+    <!--    CATEGORIES-->
+    <div formArrayName="categories" class=" bg-slate-100 rounded-lg p-3">
+      <div class="mb-2 text-lg">
+        دسته بندی محصول
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        @for (c of categoriesControl; track i; let i = $index) {
+          <label class="" [formGroupName]="i">
+            <input type="checkbox" name="selected" formControlName="selected">
+            {{ c.value.name }}
+          </label>
+        }
+      </div>
+      <app-input-errors class="static!" [control]="productForm.get('categories')"/>
+    </div>
+
+    <!--    STATUS-->
+    <div class="  bg-slate-100 rounded-lg p-3">
+      <div class="mb-2 text-lg">
+        وضعیت محصول
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <label class="">
+          <input formControlName="status" type="radio" name="status" value="active">
+          active
+        </label>
+        <label class="">
+          <input formControlName="status" type="radio" name="status" value="draft">
+          draft
+        </label>
+        <label class="">
+          <input formControlName="status" type="radio" name="status" value="archived">
+          archive
+        </label>
+      </div>
+    </div>
+
+    <!--    IMAGES-->
+    <div class="  bg-slate-100 rounded-lg p-3">
+      <div class="mb-2 text-lg">
+        عکس محصول
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="">
+          <div class="input-group">
+            <input multiple accept="image/" type="file" id="images" (change)="onFileChange($event)">
+            <label for="images">عکس ها</label>
+            <app-input-errors class="" [control]="productForm.get('images')"/>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+          @for (img of imagePreviews; track $index) {
+            <img class="aspect-square object-cover rounded-lg" [src]="img" alt="3">
+          }
+        </div>
+      </div>
+    </div>
+    <div class="mt-1">
+      <button type="button" (click)="submit()"
+              class="h-10 w-22 flex justify-center items-center  bg-slate-800 text-white rounded-lg   transition-transform hover:scale-110">
+        @if (loading()) {
+          <ng-icon class="animate-spin text-xl" name="ionReload"></ng-icon>
+        } @else {
+          افزودن
+        }
+      </button>
+    </div>
+
+  </form>
+
+</div>

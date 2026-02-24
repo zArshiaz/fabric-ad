@@ -1,0 +1,11 @@
+<div class="flex h-screen font-vazir">
+  <div class=" bg-amber-100">
+    <app-sidebar [changeShowSidebar]="changeShowSidebar.bind(this)"  [isShowSidebar]="showSidebar()"></app-sidebar>
+  </div>
+  <div class="flex-1 flex flex-col">
+    <app-header [showSidebar]="showSidebar"></app-header>
+    <div class="flex-1 overflow-y-auto px-3 bg-slate-300">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

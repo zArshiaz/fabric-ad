@@ -1,0 +1,80 @@
+<div class="border-2 border-gray-400 rounded-lg p-3">
+  <div class="flex items-center gap-2">
+    <div class="w-9 h-9 bg-gray-300 rounded-full"></div>
+    <div>
+      <p class="text-sm">{{ comment.user.name }}</p>
+      <p class="text-xs text-gray-500">{{ comment.user.role }}</p>
+    </div>
+    <div class="text-sm">
+      <app-print-star [count]="comment.stars"></app-print-star>
+      <div class="text-xs text-gray-400">{{comment.createdAt | timeAgo}}</div>
+    </div>
+  </div>
+  <div class="ms-9 mt-2 text-sm font-light">
+    {{ comment.text }}
+  </div>
+  <div class="mt-2 flex gap-2">
+    <button
+      (click)="likeHandler()"
+      [ngClass]="{
+    'flex gap-1 items-center px-1 text-sm font-light border border-red-500 text-red-500 rounded transition-all': true,
+    '!bg-red-500 !text-white': commentLikedByCurrentUser()
+      }">
+      <ng-icon name="ionHeartOutline"></ng-icon>
+      <span>{{ likeCount().toLocaleString('fa') }}</span>
+    </button>
+    <button
+      (click)="handleShowAnswerForm()"
+      class="flex gap-1 items-center px-1 text-sm font-light border border-gray-500 text-gray-500 rounded transition-all hover:bg-gray-500 hover:text-white">
+      <ng-icon name="ionArrowRedoOutline"></ng-icon>
+      <span>پاسخ</span>
+    </button>
+    @if (comment.answer.length) {
+      <button
+        class="tracking-tighter px-1 text-sm font-light border border-gray-500 text-gray-500 rounded transition-all hover:bg-gray-500 hover:text-white"
+        (click)="handleShowAnswer()">
+        @if (showAnswer()) {بستن} @else {نمایش پاسخ ها}
+      </button>
+    }
+  </div>
+ <div>
+   @if(showAnswerForm()){
+     <form [formGroup]="commentForm"
+           [ngClass]="{
+        'relative max-h-0 overflow-hidden p-0 ms-10 md:ms-24 bg-white rounded-lg transition-all duration-300': true,
+        'max-h-[400px] mt-2 p-2': showAnswerForm()
+      }">
+       <textarea formControlName="text"
+            placeholder="متن پاسخ"
+            class="text-sm w-full p-1 outline-0 border-2 border-gray-500 rounded"
+            rows="3"></textarea>
+       <button (click)="sendAnswer()" class="bg-slate-700 text-white py-1 px-2 rounded text-xs transition-all hover:scale-105 hover:bg-slate-800">
+         ارسال
+       </button>
+       <app-input-errors class="!left-2 bottom-2" [control]="commentForm.get('text')"></app-input-errors>
+     </form>
+
+   }
+   @if (comment.answer.length ) {
+     <div [hidden]="!showAnswer()"  class="rounded space-y-2 mt-2">
+       @for (c of comment.answer; track $index) {
+         <div class="bg-white p-3 rounded-lg border-r-3 border-r-slate-800">
+           <div class="flex items-center gap-2">
+             <div class="w-7 h-7 bg-gray-300 rounded-full"></div>
+             <div>
+               <p class="text-xs">{{ c.user.name }}</p>
+               <p class="text-[10px] text-gray-500">{{ c.user.role }}</p>
+             </div>
+             <div class="text-[10px] text-gray-400">
+               {{c.createdAt | timeAgo}}
+             </div>
+           </div>
+           <div class="ms-9 mt-2 text-sm font-light">
+             {{ c.text }}
+           </div>
+         </div>
+       }
+     </div>
+   }
+ </div>
+</div>

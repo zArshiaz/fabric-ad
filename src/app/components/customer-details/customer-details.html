@@ -1,0 +1,21 @@
+<div class="px-5 py-4 rounded-xl bg-slate-700 text-white">
+  <h4 class="text-xl mb-2">اطلاعات مشتری</h4>
+  <div class="grid grid-cols-2 gap-2 text-gray-200">
+    <div>
+      <p class="text-sm text-gray-400 font-light">نام</p>
+      <p>{{user().name}}</p>
+    </div>
+    <div>
+      <p class="text-sm text-gray-400 font-light">ایمیل</p>
+      <p>{{user().email}}</p>
+    </div>
+    <div>
+      <p class="text-sm text-gray-400 font-light">شماره تلفن</p>
+      <p>{{user().phone}}</p>
+    </div>
+    <div>
+      <p class="text-sm text-gray-400 font-light">نقش</p>
+      <p>{{user().role==="admin"?'ادمین':'کاربر عادی'}}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class=" bg-slate-800 rounded-2xl p-6 pb-4 text-white">
+  <div class="flex justify-between items-center  pb-4">
+    <h3 class="text-3xl">اطلاعات کاربر</h3>
+    <button
+      (click)="changeShowFormEdit()"
+      class="bg-slate-900 px-4 rounded-lg py-1.5 shadow-slate-950 shadow transition-all hover:shadow-lg hover:scale-105 hover:drop-shadow-xl">
+      ویرایش
+    </button>
+  </div>
+  <form [formGroup]="userForm" class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+    <div class="">
+      <p class="text-sm font-light text-gray-400">نام کامل</p>
+      @if (showFormEdit()) {
+        <input class="px-2 py-0.5 border-2 border-gray-400 rounded" type="text" formControlName="name">
+        <app-input-errors class="sticky!" [control]="userForm.get('name')"></app-input-errors>
+      } @else {
+        <p>{{ userInfo.name }}</p>
+      }
+
+    </div>
+    <div class="">
+      <p class="text-sm font-light text-gray-400">ایمیل</p>
+      @if (showFormEdit()) {
+        <input dir="ltr" class="px-2 py-0.5 border-2 border-gray-400 rounded text-left" type="text" formControlName="email">
+        <app-input-errors class="sticky!" [control]="userForm.get('email')"></app-input-errors>
+      } @else {
+        <p>{{ userInfo.email }}</p>
+      }
+    </div>
+    <div class="">
+      <p class="text-sm font-light text-gray-400">تلفتن</p>
+      @if (showFormEdit()) {
+        <input dir="ltr" class="px-2 py-0.5 border-2 border-gray-400 rounded text-left dired" type="text" formControlName="phone">
+        <app-input-errors class="sticky!" [control]="userForm.get('phone')"></app-input-errors>
+      } @else {
+        <p>{{ userInfo.phone }}</p>
+      }
+    </div>
+    <div class="">
+      <p class="text-sm font-light text-gray-400">نقش</p>
+      @if (showFormEdit()) {
+        <div class="flex gap-3">
+          <label>
+            <input type="radio" value="admin" formControlName="role">
+            ادمین
+          </label>
+          <label>
+            <input type="radio" value="user" formControlName="role">
+            کاربر عادی
+          </label>
+        </div>
+      } @else {
+      <p>{{ userInfo.role === 'admin' ? 'ادمین' : 'کاربر عادی' }}</p>
+      }
+    </div>
+    <div class="">
+      <span class="text-sm font-light text-gray-400"> تاریخ عضویت</span>
+      <span class="ms-2 text-xs text-gray-500 font-light ">{{ userInfo.createdAt | timeAgo }}</span>
+      <p>{{ userInfo.createdAt | jalaliDate }}</p>
+    </div>
+    <div class="">
+      <span class="text-sm font-light text-gray-400">آخرین اپدیت </span>
+      <span class="ms-2 text-xs text-gray-500 font-light ">{{ userInfo.updatedAt | timeAgo }}</span>
+      <p>{{ userInfo.updatedAt| jalaliDate }}</p>
+    </div>
+    @if (showFormEdit()){
+      <div class="flex gap-2 text-lg mb-2">
+        <button (click)="submitHandler()" class="px-5 py-1 rounded-lg bg-slate-900 shadow-gray-800 shadow-lg transition-all hover:shadow-slate-950 hover:scale-105">ثبت</button>
+        <button (click)="changeShowFormEdit()" class="px-5 py-1 rounded-lg bg-slate-700 shadow-gray-800 shadow-lg transition-all hover:shadow-slate-950 hover:scale-105">لغو</button>
+      </div>
+    }
+  </form>
+</div>

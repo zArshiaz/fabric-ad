@@ -1,0 +1,62 @@
+
+<div class="mb-3">
+  <div class="grid grid-cols-2 sm:grid-cols-6 gap-3">
+    <div class="col-span-2">
+      <input [field]="filterForm.text" class="search-box w-full" type="text" placeholder="متن کامنت-نام کاربر-نام محصول">
+    </div>
+
+    <div class="select-box col-span-1 sm:col-span-2">
+      <select [field]="filterForm.select" >
+        <option selected value="all">همه موارد</option>
+        <option value="active">فعال</option>
+        <option value="draft">انتظار تایید</option>
+        <option value="hasDraftAnswer">دارای پاسخ جدید</option>
+      </select>
+    </div>
+    <div class="select-box col-span-1 sm:col-span-2">
+      <select [field]="filterForm.sort" >
+        <option selected value="new">جدید ترین</option>
+        <option value="old">قدیمی ترین</option>
+        <option value='top'>بیشترین امتیاز</option>
+        <option value="low">کمترین امتیاز</option>
+      </select>
+    </div>
+
+  </div>
+  <p class="text-sm text-gray-800 ms-4 mt-1">
+    <span class="mx-1">{{commentsFiltered().length.toLocaleString('fa')}}</span>
+    از
+    <span class="mx-1">{{comments().length.toLocaleString('fa')}}</span>
+    کامنت
+  </p>
+</div>
+
+<div class="bg-slate-500 p-4 rounded-2xl">
+  <div class="mb-2">
+    <h3 class="text-2xl text-white">لیست کامنت ها</h3>
+  </div>
+  <div>
+    @if (loading()) {
+      <app-loading></app-loading>
+    } @else if (error()){
+      <app-alert type="error">
+        <p message >خطا در گرفتن کامنت ها.</p>
+      </app-alert>
+    } @else if (comments().length===0){
+      <app-alert type="warning">
+        <p message >کامنتی یافت نشد.</p>
+      </app-alert>
+    } @else {
+      <div class="flex flex-col gap-2">
+        @for (com of commentsFiltered();track com._id){
+          <app-comments-page-item (commentChanged)="getData()" [comment]="com"></app-comments-page-item>
+        }
+        @if (!commentsFiltered().length) {
+          <app-alert type="warning">
+            <p message>کامنتی با این مشخصات یافت نشد</p>
+          </app-alert>
+        }
+      </div>
+    }
+  </div>
+</div>

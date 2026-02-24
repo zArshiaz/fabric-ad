@@ -1,0 +1,99 @@
+<div class="px-5 py-4 rounded-xl bg-slate-700 text-white">
+  <div class="flex justify-between">
+    <h4 class="text-xl mb-2"> آدرس</h4>
+    @if (!isShowInputs()) {
+      <button (click)="showInputs()"
+              class="rounded-lg bg-slate-800 px-3 shadow-slate-900 transition-all hover:scale-105 hover:shadow-lg">
+        ویرایش
+      </button>
+    }
+  </div>
+  <form (ngSubmit)="submit()" [formGroup]="addressForm">
+    <div class="grid grid-cols-3 gap-5 text-gray-200">
+      <div class="relative">
+        <p class="text-sm text-gray-400 font-light">عنوان</p>
+        @if (isShowInputs()) {
+          <input class="outline-1 min-w-[300px] rounded px-1 outline-gray-400" type="text" formControlName="title">
+          <app-input-errors [control]="addressForm.get('title')"></app-input-errors>
+        } @else {
+          <p>{{ address().title }}</p>
+        }
+      </div>
+      <div class="relative">
+        <p class="text-sm text-gray-400 font-light">شماره تلفن</p>
+        @if (isShowInputs()) {
+          <input class="outline-1 min-w-[300px] rounded px-1 outline-gray-400" type="text" formControlName="phone">
+          <app-input-errors [control]="addressForm.get('phone')"></app-input-errors>
+        } @else {
+          <p>{{ address().phone }}</p>
+        }
+      </div>
+      <div class="relative">
+        <p class="text-sm text-gray-400 font-light">استان</p>
+        @if (isShowInputs()) {
+          <select class="outline-1 min-w-[250px] rounded px-1 outline-gray-400" formControlName="province"
+                  (change)="onProvinceChange($event)">
+            <option class="bg-gray-700" value="">استان ...</option>
+            @for (province of Object.keys(iranProvinces); track province) {
+              <option class="bg-gray-700" [value]="province">{{ province }}</option>
+            }
+          </select>
+          <app-input-errors [control]="addressForm.get('province')"></app-input-errors>
+        } @else {
+          <p>{{ address().province }}</p>
+        }
+      </div>
+      <div>
+        <p class="text-sm text-gray-400 font-light">شهر</p>
+        @if (isShowInputs()) {
+          <div class="relative">
+            <select class="outline-1 min-w-[300px] rounded px-1 outline-gray-400" formControlName="city">
+              <option class="bg-gray-700" selected value="">شهر ...</option>
+              @for (city of cityList(); track city) {
+                <option class="bg-gray-700" [value]="city">{{ city }}</option>
+              }
+            </select>
+            <app-input-errors class="" [control]="addressForm.get('city')"></app-input-errors>
+          </div>
+        } @else {
+          <p>{{ address().city }}</p>
+        }
+      </div>
+      <div class="relative">
+        <p class="text-sm text-gray-400 font-light">کدپستی</p>
+        @if (isShowInputs()) {
+          <div class="relative">
+            <input class="outline-1 min-w-[300px] rounded px-1 outline-gray-400" type="number"
+                   formControlName="zipCode">
+            <app-input-errors [control]="addressForm.get('zipCode')"></app-input-errors>
+          </div>
+        } @else {
+          <p>{{ address().zipCode }}</p>
+        }
+      </div>
+      <div class="relative">
+        <p class="text-sm text-gray-400 font-light">آدرس</p>
+        @if (isShowInputs()) {
+          <textarea rows="4" class="outline-1 min-w-[300px] rounded px-1 outline-gray-400 resize-none" type="text"
+                    formControlName="address"></textarea>
+          <app-input-errors [control]="addressForm.get('address')"></app-input-errors>
+        } @else {
+          <p>{{ address().address }}</p>
+        }
+      </div>
+    </div>
+    @if (isShowInputs()) {
+      <div class="relative">
+        <button type="submit"
+                class="px-3 rounded-lg bg-slate-800 py-1 transition-all hover:scale-105 hover:shadow-lg shadow-slate-950">
+          ذخیره
+        </button>
+        <button (click)="closeInput()"
+                class="px-3 rounded-lg bg-slate-600 border border-slate-950 text-slate-950 py-1 ms-2 transition-all hover:scale-105 hover:text-white hover:bg-slate-900">
+          لغو
+        </button>
+      </div>
+    }
+  </form>
+
+</div>

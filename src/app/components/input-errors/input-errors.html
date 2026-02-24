@@ -1,0 +1,11 @@
+@if(control?.invalid && !control?.untouched){
+  <div [class]="'text-red-500 text-[12px] absolute -bottom-4.5 '+class">
+    @if (control?.errors?.['minlength']){<span>حداقل کاراکتر مجاز نامعتبر</span>}
+    @if (control?.errors?.['required']){<span>فیلد الزامی</span>}
+    @if (control?.errors?.['email']){<span>ایمیل نامعتبر</span>}
+    @if (control?.errors?.['min']){<span>حداقل مقدار نامعتبر</span>}
+    @if (control?.errors?.['max']){<span>حداکثر مقدار نامعتبر</span>}
+    @if (control?.errors?.['atLeastOne']){<span>یکی از موارد انتخاب شود</span>}
+    @if (control?.errors?.['pattern']){<span>مقدار وارد شده نامعتبر</span>}
+  </div>
+}

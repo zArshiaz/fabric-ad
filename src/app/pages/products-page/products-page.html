@@ -1,0 +1,60 @@
+<div class="container">
+  <page-header title="لیست محصولات"></page-header>
+
+  <div class="bg-slate-600 rounded-xl p-4 flex flex-col gap-4 mb-3">
+    <h3 class="text-xl text-white">جستوجو و فیلتر</h3>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <input class="search-box" type="text" placeholder="نام ,شناسه ..." [field]="filterForm.text"/>
+      <div class="select-box">
+        <select [field]="filterForm.category">
+          <option value="" selected>همه دسته ها</option>
+          @for (cat of categories();track cat._id){
+            <option [value]="cat.slug">{{cat.name}}</option>
+
+          }
+        </select>
+      </div>
+      <div class="select-box">
+        <select [field]="filterForm.status">
+          <option value="" selected>همه حالات</option>
+          <option value="active">فعال</option>
+          <option value="draft">در انتظار تایید</option>
+          <option value="archived">بایگانی شده</option>
+        </select>
+      </div>
+      <div class="select-box">
+        <select [field]="filterForm.sort">
+          <option value="new" selected>جدید ترین</option>
+          <option value="old">قدیمی ترین</option>
+          <option value="expensive">گران ترین</option>
+          <option value="cheap">ارزان ترین</option>
+          <option value="top">بیشترین موجودی</option>
+          <option value="low">کمترین موجودی</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label class="text-white">
+        <span class="me-2">دارای تخفیف</span>
+        <input type="checkbox" [field]="filterForm.discount" >
+      </label>
+    </div>
+    <div class="flex justify-between">
+      <div class="text-sm font-light text-gray-300">
+        <span>تعداد محصول ها:</span>
+        <span class="mx-1">{{filteredProducts().length}}</span>
+        <span>از</span>
+        <span class="mx-1">{{products().length}}</span>
+      </div>
+      <div>
+        <button class="text-white text-sm hover:outline-2 px-1 rounded" (click)="resetFilter()">مقادیر اولیه</button>
+      </div>
+    </div>
+  </div>
+  @if (loading()) {
+    <app-loading></app-loading>
+  } @else {
+
+  <app-product-list [(products)]="products" [filteredProducts]="filteredProducts()"></app-product-list>
+  }
+</div>

@@ -1,0 +1,44 @@
+<div class="modal__container">
+<form (submit)="submitHandler($event)" class="modal">
+  <div class="header">
+    <h3>افزودن کامنت</h3>
+    <ng-icon (click)="closeModal()" class="close-btn" name="ionClose"></ng-icon>
+  </div>
+  <div class="grid grid-cols-2 gap-2">
+    <div class="col-span-2">
+      <div class="input-group">
+        <input type="text" id="text" [field]="commentForm.text">
+        <label for="text">متن کامنت</label>
+      </div>
+      @if (commentForm.text().touched() && commentForm.text().invalid()) {
+        @for (err of commentForm.text().errors() ; track err){
+          <div class="text-xs text-red-600">
+            {{err.message}}
+          </div>
+        }
+      }
+    </div>
+    <div>
+      <div class="input-group">
+        <input step="0.1" type="number" id="stars" [field]="commentForm.stars">
+        <label for="stars">امتیاز</label>
+      </div>
+      @if (commentForm.stars().touched() && commentForm.stars().invalid()) {
+        @for (err of commentForm.stars().errors() ; track err){
+          <div class="text-xs text-red-600">
+            {{err.message}}
+          </div>
+        }
+      }
+    </div>
+    @if (commentForm.stars().value()) {
+      <div class="flex justify-center items-center">
+        <app-print-star [count]="commentForm.stars().value()"></app-print-star>
+      </div>
+    }
+    </div>
+  <div>
+    <button class="px-3 py-0.5 bg-slate-800 text-white rounded transition-all shadow-slate-400 hover:scale-105 hover:shadow-lg" type="submit">ثبت</button>
+  </div>
+</form>
+</div>

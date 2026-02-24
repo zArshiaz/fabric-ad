@@ -1,0 +1,51 @@
+<div class="flex flex-col gap-3 p-4 bg-slate-700 rounded-xl text-white">
+  <div class="flex justify-between">
+      <div>
+        <div class="flex gap-2">
+         <a [routerLink]="['/user',comment().user._id]" class="font-bold mb-1 hover:text-blue-300"> {{comment().user.name}}</a>
+          <div>
+            <span [ngClass]="[comment().status==='active'?'bg-green-100 text-green-600 ': 'bg-orange-50 text-orange-500','text-xs border-1 rounded-full font-light px-2 py-[1px]'] ">{{comment().status==='active'?'تایید شده':'در انتظار تایید'}}</span>
+          </div>
+        </div>
+        <div class="text-xs text-gray-400">
+          {{comment().user.email}}
+        </div>
+      </div>
+    <div class="flex flex-col items-end">
+      <p class="text-sm text-gray-400">{{comment().createdAt | jalaliDate:'DD/MMMM/YYYY HH:mm:ss' }}</p>
+      <app-print-star class="text-sm text-gray-300!" [count]="comment().stars"></app-print-star>
+    </div>
+  </div>
+  <div>
+    <a [routerLink]="['/productDetails',comment().product._id]" class="text-sm text-gray-300 flex gap-1 hover:text-red-300">
+      <span>محصول:</span>
+      <span>{{comment().product.name}}</span>
+    </a>
+    <p>
+      {{comment().text}}
+    </p>
+  </div>
+  <div class="flex justify-between">
+    <div class="gap-3 flex">
+      @if (comment().status==='draft') {
+        <button (click)="activeComment()" class="bg-green-800 text-green-50 px-4 py-1 rounded-lg transition-all shadow-slate-900 hover:shadow-lg hover:scale-105 hover:bg-green-700">تایید</button>
+      }
+      <div class="relative">
+        <button (click)="showCommentAnswerModal()" class="bg-slate-800 text-white px-4 py-1 rounded-lg transition-all shadow shadow-slate-900 hover:shadow-lg hover:scale-105 "> پاسخ ها</button>
+        @if (comment().hasDraftAnswer){
+          <span class="bg-orange-400 text-white text-xs absolute -top-2 px-1 rounded-full -left-5">new</span>
+        }
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button (click)="showEditCommentModal()" class="bg-gray-600 text-gray-50 px-4 py-1 rounded-lg transition-all shadow-slate-900 hover:shadow-lg hover:scale-105 ">ویرایش</button>
+      <button (click)="deleteComment()" class="bg-red-800 text-red-50 px-4 py-1 rounded-lg transition-all shadow-slate-900 hover:shadow-lg hover:scale-105 hover:bg-red-700">حذف</button>
+    </div>
+  </div>
+</div>
+@if (isShowEditCommentModal()){
+<app-edit-comment-modal (commentChanged)="commentChanged.emit()" [commentData]="comment()" [showModal]="isShowEditCommentModal"></app-edit-comment-modal>
+}
+@if (isShowCommentAnswerModal()){
+<app-comment-answer-modal (commentChanged)="commentChanged.emit()"  [commentId]="comment()._id" [showModal]="isShowCommentAnswerModal"></app-comment-answer-modal>
+}

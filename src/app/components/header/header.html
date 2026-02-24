@@ -1,0 +1,22 @@
+<header class="h-15 flex justify-between items-center px-1 border-b border-b-slate-300 bg-slate-900 text-white">
+  <!--  right-->
+  <div>
+    <button (click)="toggleSidebar()"
+            class="flex justify-center items-center text-3xl w-10 h-10 rounded-xl transition-colors hover:bg-slate-700">
+      <ng-icon name="ionMenuSharp"></ng-icon>
+    </button>
+  </div>
+  <!--  left-->
+  <div>
+    <!--    userInfo-->
+    @if (userInfo()){
+      <div class="flex items-center gap-2 font-bold text-gray-300">
+        <div>
+          <p class="leading-3">{{userInfo()?.name}}</p>
+          <p class="font-light text-sm text-gray-400">{{userInfo()?.role==='admin'&&'ادمین'}}</p>
+        </div>
+        <ng-icon class="text-5xl" name="heroUserCircle"></ng-icon>
+      </div>
+    }
+  </div>
+</header>

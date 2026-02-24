@@ -1,0 +1,48 @@
+<div class="bg-white min-w-[250px] rounded-lg overflow-hidden border-2 border-b-slate-800  flex flex-col">
+  <div class="flex flex-col relative">
+    <span
+      class="absolute top-1 right-1 text-sm bg-slate-800 text-white px-2 py-1 rounded-sm">{{ product.status }}</span>
+    @if (product.discount && product.discount.active) {
+      <span
+        class="absolute top-1 left-1 text-sm bg-red-600 text-white px-2 py-1 rounded-sm">{{ product.discount.percent.toLocaleString('fa') }}
+        %</span>
+    }
+
+    <img class="object-cover w-full aspect-square border-b-2 border-b-slate-500" [src]="product.images[0]?.url || '/images/noImage.png'"
+         [alt]="product.name">
+    <div class="px-2 py-1 h-[130px] flex flex-col justify-between">
+      <div>
+        <h3 class="text-lg mb-1">{{ product.name }}</h3>
+        <p>
+          <span>قیمت (هرمتر):</span>
+          <span>{{ product.price | toman }}</span>
+          @if (product.discount && product.discount.active) {
+            <del class="block">{{ product.pricePerMeter.toLocaleString('fa') }}</del>
+          }
+        </p>
+      </div>
+      <p>
+        <span>موجودی (متر):</span>
+        <span>{{ product.stockMeters.toLocaleString('fa') }}</span>
+      </p>
+    </div>
+  </div>
+  <!--  footer-->
+  <div class="flex gap-2 p-1 border-t-2">
+    <a
+      [routerLink]="['/productDetails',product.slug]"
+      class="flex-1 text-center rounded-md bg-gray-100 border-2 transition-all hover:bg-slate-700 hover:text-white hover:scale-105">
+      جزئیات
+    </a>
+    <a
+      [routerLink]="['/editProduct',product.slug]"
+      class="flex-1 text-center rounded-md text-green-700 bg-green-100 border-2 transition-all hover:bg-green-700 hover:text-white hover:scale-105">
+      ویرایش
+    </a>
+    <button
+      (click)="deleteHandler()"
+      class="flex-1 rounded-md text-red-700 bg-red-100 border-2 transition-all hover:bg-red-600 hover:text-white hover:scale-105">
+      حذف
+    </button>
+  </div>
+</div>

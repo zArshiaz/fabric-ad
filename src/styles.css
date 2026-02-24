@@ -1,1 +1,97 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import "tailwindcss";
+@import 'tippy.js/dist/tippy.css';
+
+
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/Vazir-Medium.ttf') format('truetype');
+  font-weight: normal;
+}@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/Vazir-Light.ttf') format('truetype');
+  font-weight: 300;
+}@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/Vazir-Thin.ttf') format('truetype');
+  font-weight: 100;
+}@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/Vazir-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+@theme{
+  --font-vazir: 'vazir';
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+button,a{
+  cursor: pointer;
+}
+.container{
+  @apply mx-auto;
+}
+
+.search-box{
+  @apply  outline-0 border-2 border-slate-600 transition-all   px-3 bg-slate-200 py-1 rounded-lg
+}
+.select-box select{
+  @apply w-full outline-0
+}
+.select-box{
+  @apply text-sm outline-0 border-2 border-slate-600 transition-all    px-3 bg-slate-200 p-1 rounded-lg
+}
+
+.input{
+    @apply relative  transition-colors border-2 bg-white border-gray-300 text-sm mb-5 px-3 py-2 rounded-lg;
+}
+.input-group{
+  @apply relative w-full transition-colors border-2 bg-white border-gray-300 text-sm px-3 py-2 rounded-lg;
+}
+.input-group label{
+  @apply text-base top-1 absolute bg-white text-gray-300 right-4
+}
+.input-group input{
+  @apply  w-full  outline-0;
+}
+.input-group .btn-pass{
+  @apply absolute left-2 top-[10px] border-0 bg-none;
+}
+.input-group:has(input:focus) {
+  @apply border-gray-500
+}
+.input-group input:focus + label, .input-group input:not(:placeholder-shown) + label{
+  @apply text-sm -top-[2px] right-4  px-1 leading-[2px];
+}
+
+
+.modal__container {
+  @apply fixed inset-0 flex justify-center items-center bg-black/40 z-[100]
+
+}
+.modal__container .modal{
+  @apply bg-white flex flex-col gap-4 w-[300px] p-3 rounded-xl
+}
+.modal .header{
+ @apply flex items-center justify-between pb-2 border-b-2 border-b-gray-200
+}
+.modal .close-btn{
+  @apply text-2xl cursor-pointer rounded-full transition-all shadow-gray-300 hover:shadow-lg hover:scale-105 hover:bg-gray-100
+}

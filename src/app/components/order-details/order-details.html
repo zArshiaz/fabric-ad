@@ -1,0 +1,80 @@
+<div class="px-5 py-4 rounded-xl bg-slate-700 text-white">
+  <div class="flex justify-between">
+    <h4 class="text-xl mb-2">جزیات سفارش</h4>
+
+  </div>
+  <div class="grid grid-cols-2 gap-2 text-gray-200">
+    <div>
+      <p class="text-sm text-gray-400 font-light">شماره سفارش</p>
+      <p>{{ order().orderNumber }}</p>
+    </div>
+    <div class="flex justify-between items-end">
+      <div>
+        <p class="text-sm text-gray-400 font-light">وضعیت سفارش</p>
+        @if (isShowInput()) {
+          <div class="flex items-center gap-3 text-sm">
+            <label class="flex items-center gap-0.5 cursor-pointer">
+              <input type="radio" name="processStatus" [(ngModel)]="this.processStatus" value="confirmed">
+              درحال پردازش
+            </label>
+            <label class="flex items-center gap-0.5 cursor-pointer">
+              <input type="radio" name="processStatus" [(ngModel)]="this.processStatus" value="shipped">
+                  پست شده
+            </label>
+            <label class="flex items-center gap-0.5 cursor-pointer">
+              <input type="radio" name="processStatus" [(ngModel)]="this.processStatus" value="delivered">
+              تحویل داده شده
+            </label>
+            <label class="flex items-center gap-0.5 cursor-pointer">
+              <input type="radio" name="processStatus" [(ngModel)]="this.processStatus" value="canceled">
+              لغو شده
+            </label>
+          </div>
+        } @else {
+          <p>{{ processStatusText() }}</p>
+        }
+      </div>
+      <div class="text-sm">
+        @if (isShowInput()) {
+          <button (click)="closeInput()" class="px-2 py-0.5 rounded-lg bg-slate-800 me-2">لغو</button>
+          <button (click)="changeProcessStatus()" class="px-2 py-0.5 rounded-lg bg-slate-800">ذخیره</button>
+        } @else {
+          <button (click)="showInput()" class="px-2 py-0.5 rounded-lg bg-slate-800">ویرایش</button>
+        }
+      </div>
+    </div>
+    <div>
+      <p class="text-sm text-gray-400 font-light"> تاریخ ثبت</p>
+      <p>{{ order().createdAt | jalaliDate:'DD/MMMM/YYYY HH:mm:ss' }}</p>
+    </div>
+    <div>
+      <p class="text-sm text-gray-400 font-light"> تاریخ ویرایش</p>
+      <p>{{ order().updatedAt | jalaliDate:'DD/MMMM/YYYY HH:mm:ss' }}</p>
+    </div>
+    <div>
+      <p class="text-sm text-gray-400 font-light">هزینه ارسال</p>
+      <p>{{ order().totalPrice.toLocaleString('fa') }}</p>
+    </div>
+    <div>
+      <p class="text-sm text-gray-400 font-light">جمع کل سبد</p>
+      <p>{{ order().totalPrice.toLocaleString('fa') }}</p>
+    </div>
+    <div class="col-span-2">
+      <h5 class="text-lg mb-2">لیست محصولات</h5>
+      <div class=" grid grid-cols-2 gap-2">
+        @for (item of order().items; track $index) {
+          <div class="flex items-center gap-4">
+            <img class="w-15 aspect-square rounded" [src]="item.image" [alt]="item.name">
+            <p>{{ item.name }}</p>
+            <p class="text-sm"><span>{{ item.count.toLocaleString('fa') }}</span><span class="ms-1">متر</span></p>
+            <p class="text-sm"><span>{{ (item.count * item.price).toLocaleString('fa') }}</span><span
+              class="ms-1">تومان</span></p>
+            <p class="text-sm"><span>{{ (item.count * item.discountPrice).toLocaleString('fa') }}</span><span
+              class="ms-1">تومان تخفیف</span></p>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

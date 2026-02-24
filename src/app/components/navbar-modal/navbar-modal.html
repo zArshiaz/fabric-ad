@@ -1,0 +1,106 @@
+<div class="modal__container">
+  <form novalidate (submit)="onSubmit($event)"  class="modal relative">
+<!--    loading-->
+    @if (loading()) {
+      <div class="absolute inset-0 z-50 bg-gray-500/80 text-white flex justify-center items-center rounded-xl ">
+        <ng-icon class="text-3xl animate-spin" name="ionReload"></ng-icon>
+      </div>
+    }
+
+    <div class="header">
+      <h3>
+        @if (type()==='add') {
+          <span>افزودن</span>
+        } @else {
+          <span>ویرایش</span>
+        }
+      </h3>
+      <ng-icon (click)="closeModal()" class="close-btn" name="ionClose"></ng-icon>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <div class="col-span-2">
+        <div class="input-group">
+          <input type="text" id="title" [field]='navbarForm.title'>
+          <label for="title">عنوان</label>
+        </div>
+        @if (navbarForm.title().touched() && navbarForm.title().invalid()) {
+          @for (err of navbarForm.title().errors() ; track err){
+            <div class="text-xs text-red-600">
+              {{err.message}}
+            </div>
+          }
+        }
+      </div>
+      <div class="col-span-2">
+        <div class="input-group">
+          <input type="text" id="href" [field]='navbarForm.href'>
+          <label for="href">آدرس</label>
+        </div>
+        @if (navbarForm.href().touched() && navbarForm.href().invalid()) {
+          @for (err of navbarForm.href().errors() ; track err){
+            <div class="text-xs text-red-600">
+              {{err.message}}
+            </div>
+          }
+        }
+      </div>
+      <div class="col-span-2">
+        <div class="input-group">
+          <input type="number" id="or" [field]='navbarForm.order'>
+          <label for="or">رتبه</label>
+        </div>
+        @if (navbarForm.order().touched() && navbarForm.order().invalid()) {
+          @for (err of navbarForm.order().errors() ; track err){
+            <div class="text-xs text-red-600">
+              {{err.message}}
+            </div>
+          }
+        }
+      </div>
+    </div>
+    <div>
+      <div class='flex justify-between items-center'>
+        <p class="text-sm">دراپ داون ها</p>
+        <button type="button" (click)="addDropdownItem()" class="px-3 py-1 text-sm text-white bg-gray-700 rounded">افزودن</button>
+      </div>
+      <div class="max-h-[300px] overflow-y-auto">
+        @for (dropdown of navbarForm.dropdownItems().value();let i = $index; track i){
+         <div class="grid grid-cols-4 mt-2 gap-2.5 border-b-2 border-b-gray-400 mx-1 py-1">
+           <div class="col-span-4">
+             <div class="input-group">
+               <input type="text" [id]="i+'title'" [field]='navbarForm.dropdownItems[i].title'>
+               <label [for]="i+'title'">عنوان</label>
+             </div>
+             @if (navbarForm.dropdownItems[i].title().touched() && navbarForm.dropdownItems[i].title().invalid()) {
+               @for (err of navbarForm.dropdownItems[i].title().errors() ; track err){
+                 <div class="text-xs text-red-600">
+                   {{err.message}}
+                 </div>
+               }
+             }
+           </div>
+           <div class="col-span-3">
+             <div class="input-group">
+               <input type="text" [id]="i+'href'" [field]='navbarForm.dropdownItems[i].href'>
+               <label [for]="i+'href'">آدرس</label>
+             </div>
+             @if (navbarForm.dropdownItems[i].href().touched() && navbarForm.dropdownItems[i].href().invalid()) {
+               @for (err of navbarForm.dropdownItems[i].href().errors() ; track err){
+                 <div class="text-xs text-red-600">
+                   {{err.message}}
+                 </div>
+               }
+             }
+           </div>
+           <div class="flex items-center">
+             <button type="button" class="bg-red-500 text-white rounded px-3 py-1 text-sm" (click)="removeDropdownItem(i)">حذف</button>
+           </div>
+         </div>
+        }
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="px-3 py-0.5 bg-slate-800 text-white rounded transition-all shadow-slate-400 hover:scale-105 hover:shadow-lg" >ثبت</button>
+    </div>
+  </form>
+</div>

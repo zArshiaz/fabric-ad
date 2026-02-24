@@ -1,0 +1,55 @@
+@if (loading()) {
+  <app-loading></app-loading>
+} @else if (error()){
+  <app-alert type="error"> <p message>خطا در گرفتن اطلاعات.</p></app-alert>
+} @else{
+  <page-header title="مدیریت ناوبار"></page-header>
+  <div>
+    <div class="flex justify-between">
+      <div>
+        <p class="text-lg">پیش نمایش</p>
+      </div>
+      <div class="flex gap-3">
+        <button (click)="openAddModal()" class="px-3 py-1 rounded-lg bg-slate-800 text-white transition-all shadow-slate-800 hover:scale-105 hover:shadow-lg">افزودن</button>
+        @if (selectedItem()) {
+          <button (click)="openEditModal()" class="px-3 py-1 rounded-lg bg-slate-700 text-white transition-all shadow-slate-800 hover:scale-105 hover:shadow-lg">ویرایش</button>
+        }
+        @if (selectedItem()) {
+          <button (click)="deleteNavbar()" class="px-3 py-1 rounded-lg bg-red-500 text-white transition-all shadow-slate-800 hover:scale-105 hover:shadow-lg">حذف</button>
+        }
+      </div>
+    </div>
+    <p class="mb-1 text-xs text-gray-800 font-light">
+      برای ویرایش یا حذف هر کدام بر روی آن کلیک کنید.
+    </p>
+    <div class="flex gap-2 p-2 px-3 rounded-lg bg-slate-700 text-white">
+      @for (nav of navbarItems() ; track nav._id){
+        <div (click)="setItem(nav)" [class.active]="selectedItem()===nav" class="flex items-center gap-1 py-1 px-2 relative group cursor-pointer">
+          <span>{{nav.title}}</span>
+          @if (nav.dropdownItems && nav.dropdownItems.length) {
+            <ng-icon name="bootstrapChevronDown" class="transition-transform group-hover:rotate-180"></ng-icon>
+          }
+          @if (nav.dropdownItems && nav.dropdownItems.length) {
+            <div class="absolute top-full h-0 overflow-hidden transition-all delay-200 group-hover:h-auto">
+              <div class="flex flex-col gap-1 bg-white w-32 rounded p-3 text-sm text-gray-600">
+                @for (dropdown of nav.dropdownItems;track dropdown._id){
+                  <div class="border-b-2 border-white transition-colors hover:text-black hover:border-black ">
+                    {{dropdown.title}}
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+    </div>
+  </div>
+}
+@if (selectedItem() && isOpenEditModal()) {
+  <app-navbar-modal type="edit" [(navbarItems)]="navbarItems" [(isOpen)]="isOpenEditModal" [navbarItem]="selectedItem()!"/>
+}
+
+@if (isOpenAddModal()) {
+  <app-navbar-modal [(navbarItems)]="navbarItems"  [(isOpen)]="isOpenAddModal" type="add"></app-navbar-modal>
+}

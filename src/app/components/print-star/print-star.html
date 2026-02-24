@@ -1,0 +1,14 @@
+<div class="flex items-center gap-1 text-amber-400">
+
+  @for (i of [].constructor(fullStar); track $index) {
+    <ng-icon class="" name="bootstrapStarFill"/>
+  }
+
+  @for (i of [].constructor(halfStar); track $index) {
+    <ng-icon class="rotate-y-180" name="bootstrapStarHalf"/>
+  }
+
+  @for (i of [].constructor(noStar); track $index) {
+    <ng-icon name="bootstrapStar"/>
+  }
+</div>

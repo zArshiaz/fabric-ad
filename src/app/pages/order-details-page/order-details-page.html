@@ -1,0 +1,18 @@
+<page-header title="مشخصات سفارش"></page-header>
+@if (loading()) {
+  <app-loading></app-loading>
+} @else if (error()){
+  <app-alert type="error">
+    <p message>خطا در گرفتن اطلاعات سفارش</p>
+  </app-alert>
+} @else if (orderDetails()){
+<div class="flex flex-col gap-4 mb-4">
+  <app-customer-details [user]="orderDetails()?.user!"></app-customer-details>
+<app-order-address [orderId]="orderDetails()?._id!" (orderChanged)="getData(orderDetails()?._id!)" [address]="orderDetails()?.address!"></app-order-address>
+  <app-order-details (orderChanged)="getData(orderDetails()?._id!)" [order]="orderDetails()!"></app-order-details>
+</div>
+} @else  {
+  <app-alert type="warning">
+    <p message>داده ای یافت نشد</p>
+  </app-alert>
+}

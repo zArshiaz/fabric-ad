@@ -1,0 +1,26 @@
+<div class="relative w-full aspect-square shadow-2xl rounded-xl overflow-hidden">
+  <img
+    class="w-full h-full object-cover transition-all duration-800"
+    [src]="images[currentIndex()]?.url || '/images/noImage.png'"
+    alt="slider image"
+  />
+
+  @if (currentIndex() > 0 ){
+    <button (click)="prevImage()" class="flex justify-center items-center h-9 w-5 absolute right-2 top-1/2  -translate-y-1/2 bg-white/50 rounded">
+      <ng-icon name="heroChevronRight"/>
+    </button>
+  }
+  @if (currentIndex() < images.length-1) {
+    <button (click)="nextImage()" class="flex justify-center items-center h-9 w-5 absolute left-2 top-1/2  -translate-y-1/2 bg-white/50 rounded">
+      <ng-icon name="heroChevronLeft"/>
+    </button>
+  }
+
+  <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
+    @for (_ of images; track _.url;let i=$index) {
+      <div [ngClass]="{'w-2 h-2 bg-gray-400 rounded-full ':true,'w-2.5 h-2.5  bg-white':i==currentIndex()} ">
+
+      </div>
+    }
+  </div>
+</div>

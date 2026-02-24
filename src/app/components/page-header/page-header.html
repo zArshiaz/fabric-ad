@@ -1,0 +1,13 @@
+<div class="flex flex-wrap gap-3 justify-between items-center py-4">
+  <h2 class="text-3xl bg-gradient-to-r from-slate-500 to-blue-950 bg-clip-text text-transparent">
+    {{ title() }}
+  </h2>
+  <div class="flex  items-center gap-3">
+    <ng-content select="[left]">
+
+    </ng-content>
+    <ng-content select="[btn]">
+
+    </ng-content>
+  </div>
+</div>

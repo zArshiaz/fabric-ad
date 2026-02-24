@@ -1,0 +1,34 @@
+<div class="fixed inset-0 flex justify-center items-center bg-black/40 z-[100]">
+  <div class="bg-white flex flex-col gap-4 w-[400px] p-3 rounded-xl">
+    <div class="flex items-center justify-between pb-2 border-b-2 border-b-gray-200">
+      <h2 class="text-lg">
+        ویرایش کامنت
+      </h2>
+      <ng-icon (click)="closeModal()" class="text-2xl cursor-pointer rounded-full transition-all shadow-gray-300 hover:shadow-lg hover:scale-105 hover:bg-gray-100" name="ionClose"></ng-icon>
+    </div>
+    <form [formGroup]="editCommentForm" class="grid grid-cols-2 gap-4">
+      <div class="input-group col-span-2">
+        <input type="text" formControlName="text" placeholder=" " id="text">
+        <label for="text">متن کامنت</label>
+      </div>
+      <div class="input-group">
+        <input type="number" formControlName="stars" placeholder=" " id="stars">
+        <label for="stars">امتیاز</label>
+      </div>
+      <div class="flex items-center gap-3">
+        <label>
+          <input type="radio" name="status" formControlName="status" value="active">
+          فعال
+        </label>
+        <label>
+          <input type="radio" name="status" formControlName="status" value="draft">
+          غیر فعال
+        </label>
+      </div>
+    </form>
+    <div class="flex gap-2">
+      <button (click)="submitComment()"  class="px-2 py-0.5 bg-green-600 text-white  rounded hover:scale-105 transition-transform hover:shadow-lg b">ثبت</button>
+      <button (click)="closeModal()" class="px-2 py-0.5 bg-gray-400 text-white rounded hover:scale-105 transition-transform hover:shadow-lg">لغو</button>
+    </div>
+  </div>
+</div>

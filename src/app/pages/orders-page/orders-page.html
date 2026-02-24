@@ -1,0 +1,44 @@
+<page-header title="سفارشات"></page-header>
+@if (loading()){
+  <app-loading></app-loading>
+} @else if (error()){
+  <app-alert type="error">
+    <p message>خطا در گرفتن اطلاعات از دیتا بیس</p>
+  </app-alert>
+} @else {
+  <div class="space-y-6">
+    <div class="grid grid-cols-4 gap-6 ">
+      <app-widget title="تعداد سفارشات" [count]="ordersLength()" ></app-widget>
+      <app-widget title="درآمد" [count]="totalSale()" color="text-green-600"></app-widget>
+    </div>
+    <div class="bg-slate-600 rounded-xl p-4 flex flex-col gap-4">
+      <h3 class="text-xl text-white">جستوجو و فیلتر</h3>
+      <div class="grid grid-cols-3 gap-4">
+        <input class="search-box" type="text" placeholder="نام،شماره سفارش،شهر،استان،..." [field]="filterForm.text"/>
+        <div class="select-box">
+          <select [field]="filterForm.status">
+            <option value="" selected>همه</option>
+            <option value="confirmed">درحال پردازش</option>
+            <option value="shipped">تحویل داده شده به پست</option>
+            <option value="delivered">تحویل داده شده</option>
+            <option value="canceled">لغو شده</option>
+          </select>
+        </div>
+        <div class="select-box">
+          <select [field]="filterForm.sort">
+            <option value="new" selected>جدید ترین</option>
+            <option value="old">قدیمی ترین</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-sm font-light text-gray-300">
+        <span>تعداد سفارش ها:</span>
+        <span class="mx-1">{{ordersFiltered().length}}</span>
+        <span>از</span>
+        <span class="mx-1">{{orders().length}}</span>
+      </div>
+    </div>
+    <app-orders-list [(ordersList)]="orders" [ordersListFiltered]="ordersFiltered()"></app-orders-list>
+  </div>
+}
+

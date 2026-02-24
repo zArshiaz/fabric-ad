@@ -1,0 +1,45 @@
+<div class="fixed inset-0 flex justify-center items-center bg-black/40 z-[100]">
+  <div class="bg-white flex flex-col gap-2 w-[350px] p-3 rounded-xl">
+    <div class="flex items-center justify-between pb-2 border-b-2 border-b-gray-200">
+      <h2 class="text-lg">        پاسخ ها</h2>
+      <ng-icon (click)="closeModal()" class="text-2xl cursor-pointer rounded-full transition-all shadow-gray-300 hover:shadow-lg hover:scale-105 hover:bg-gray-100" name="ionClose"></ng-icon>
+    </div>
+    <div>
+      @if (!isShowAnswerForm()) {
+        <button (click)="showForm()" class="bg-slate-800 px-2 py-0.5 text-white mb-2 rounded-lg">افزودن پاسخ</button>
+      }
+      <div class="mb-2" [hidden]="!isShowAnswerForm()">
+        <form (submit)="submit($event)" class="flex gap-2">
+            <div class="input-group">
+              <input [field]="answerForm.text" type="text" id="text">
+              <label for="text">متن پاسخ</label>
+            </div>
+          <div class="flex gap-1 items-center">
+            <button (click)="closeForm()" type="submit" class=" p-1 bg-red-500 text-white rounded-full flex items-center"><ng-icon name="ionClose"></ng-icon></button>
+            <button type="submit" class=" px-2 bg-slate-800 text-white rounded-lg">ثبت</button>
+          </div>
+        </form>
+        @if (answerForm.text().invalid() && answerForm.text().touched()){
+          @for (err of answerForm.text().errors();track err){
+            <p class="text-red-500 text-xs">{{err.message}}</p>
+          }
+        }
+      </div>
+
+      <div class="flex flex-col gap-1 max-h-[330px] overflow-y-auto">
+        @if (loading()) {
+          <app-loading></app-loading>
+        } @else if (answers().length===0){
+          <app-alert type="warning" >
+            <p message>پاسخی یافت نشد</p>
+          </app-alert>
+        } @else {
+          @for (ans of answers();track ans._id){
+            <app-comment-answer-item (answerCancelled)="getData()" [answerData]="ans"></app-comment-answer-item>
+          }
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

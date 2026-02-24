@@ -1,0 +1,20 @@
+<div class="flex justify-between  rounded-lg p-4 bg-slate-900 border-2 border-slate-600">
+  <div class="flex h-full gap-3 flex-col">
+    <p  class="text-sm text-gray-400">{{comment.product.name}}</p>
+    <p class="text-white">{{comment.text}}</p>
+    <div class="text-sm font-light text-gray-400 flex gap-3">
+                 <span class="flex gap-0.5">
+                   <ng-icon name="bootstrapCalendar2Date"/>
+                   <span> {{comment.createdAt | jalaliDate}}</span>
+                 </span>
+      <span class="flex gap-0.5 items-center">
+                   <ng-icon name="ionHeartOutline"></ng-icon>
+                   <span>{{comment.likes.length.toLocaleString('fa')}}</span>
+                   <span>لایک</span>
+                 </span>
+    </div>
+  </div>
+  <div class="text-sm">
+    <button (click)="deleteComment(comment._id)" class="px-2 py-0.5 border-2 border-red-500 text-red-500 rounded shadow-red-400 transition-all hover:scale-110 ">حذف</button>
+  </div>
+</div>

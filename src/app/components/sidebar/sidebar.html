@@ -1,0 +1,36 @@
+<div [ngClass]="{
+'fixed z-50 sm:sticky h-screen bg-slate-900 text-white flex flex-col':true,
+'hidden sm:flex':!show
+}">
+  <div class="h-[60px] px-4  flex justify-between sm:justify-center items-center border-b border-b-slate-600 ">
+    @if (show) {
+      <span class="text-xl">پنل مدیریت</span>
+    } @else {
+      <ng-icon class="text-3xl transition-transform cursor-none hover:scale-110  " name="ionCut"></ng-icon>
+    }
+    <ng-icon (click)="changShow()" class="sm:hidden! text-2xl" name="ionClose"></ng-icon>
+  </div>
+
+  <div class="flex-1 px-3 mt-3 flex flex-col">
+   <div class="flex-1">
+     @for (item of menuItems; track item.link) {
+       <a [routerLink]="item.link"
+          routerLinkActive="!bg-blue-600 !text-white"
+          [routerLinkActiveOptions]="{exact:true}"
+          class="w-full flex items-center px-3 py-2.5 my-1.5 rounded-lg transition-colors text-gray-300 hover:bg-gray-800">
+         <ng-icon class="text-2xl" [name]="item.icon"></ng-icon>
+         <span [ngClass]="show ? 'w-[150px] ms-3' : 'sm:w-0 sm:h-0'" class=" overflow-hidden transition-all">{{ item.label }}</span>
+       </a>
+     }
+   </div>
+<!--    logout-->
+    <div>
+      <button (click)="logout()" class="w-full flex items-center justify-start px-3 py-2.5 my-1.5 rounded-lg transition-colors text-gray-300 hover:text-white hover:bg-blue-600">
+        <ng-icon class="text-2xl" name="ionLogOutOutline"></ng-icon>
+        <span [ngClass]="show ? 'w-[150px] ms-3' : 'w-0'" class="text-right overflow-hidden transition-all">خروج</span>
+      </button>
+    </div>
+  </div>
+
+
+</div>

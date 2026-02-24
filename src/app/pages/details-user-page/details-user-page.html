@@ -1,0 +1,16 @@
+@if (loading()) {
+  <app-loading></app-loading>
+} @else if (error()) {
+  <app-alert type="error">
+    <p message>خطار در گرفتن اطلاعات از دیتا بیس</p>
+  </app-alert>
+} @else if (userInfo()) {
+  <div class=" mt-5 flex flex-col gap-5 mb-3">
+    <app-user-info (userInfoChange)="getData()" [userInfo]="userInfo()!"/>
+    <app-user-comments [userInfo]="userInfo()!"></app-user-comments>
+  </div>
+} @else {
+  <app-alert type="warning">
+    <p message>خطار در گرفتن اطلاعات از دیتا بیس</p>
+  </app-alert>
+}

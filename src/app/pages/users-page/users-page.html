@@ -1,0 +1,64 @@
+<page-header title="لیست کاربران" ></page-header>
+<!--<div class="flex items-center gap-3 " left>-->
+<!--  <select class="select-box" [(ngModel)]="searchRoleValue">-->
+<!--    <option value="all">همه نقش‌ها</option>-->
+<!--    <option value="admin">ادمین</option>-->
+<!--    <option value="user">کاربر</option>-->
+<!--  </select>-->
+<!--  <input [(ngModel)]="searchTextValue" placeholder="نام کاربر یا ایمیل ..." class="search-box" type="text">-->
+<!--</div>-->
+<div class="bg-slate-600 rounded-xl p-4 flex flex-col gap-4 mb-3">
+  <h3 class="text-xl text-white">جستوجو و فیلتر</h3>
+  <div class="grid grid-cols-6 gap-4">
+    <input class="search-box col-span-6 sm:col-span-2" type="text" placeholder="نام ,شناسه ..." [field]="filterForm.text"/>
+    <div class="select-box col-span-3 sm:col-span-2">
+      <select [field]="filterForm.role">
+        <option value="all">همه نقش‌ها</option>
+        <option value="admin">ادمین</option>
+        <option value="user">کاربر</option>
+      </select>
+    </div>
+    <div class="select-box col-span-3 sm:col-span-2">
+      <select [field]="filterForm.sort">
+        <option value="new" selected>جدید ترین</option>
+        <option value="old">قدیمی ترین</option>
+      </select>
+    </div>
+    <div class="flex justify-between">
+      <div class="text-sm font-light text-gray-300">
+        <span>تعداد محصول ها:</span>
+        <span class="mx-1">{{filteredUsers().length}}</span>
+        <span>از</span>
+        <span class="mx-1">{{users().length}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+@if (loading()) {
+  <app-loading></app-loading>
+} @else if(error()) {
+  <app-alert type="error" >
+    <p message>خطار در گرفتن اطلاعات از دیتا بیس</p>
+  </app-alert>
+} @else if (users().length===0){
+  <app-alert type="warning" >
+    <p message>کاربری وجود ندارد</p>
+  </app-alert>
+} @else {
+  <div class="">
+    @if (filteredUsers().length){
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
+        @for (user of filteredUsers();track user._id){
+          <div class="">
+            <app-user-item [user]="user"></app-user-item>
+          </div>
+        }
+      </div>
+    } @else {
+      <app-alert type="warning">
+        <p message>کاربری با این مشخصات پیدا نشد.</p>
+      </app-alert>
+    }
+
+  </div>
+}

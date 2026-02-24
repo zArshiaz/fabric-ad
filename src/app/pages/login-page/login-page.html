@@ -1,0 +1,31 @@
+<div class="h-screen w-screen flex justify-center items-center bg-slate-800 font-vazir">
+  <div class="w-[300px] bg-white rounded-br-3xl rounded-tl-3xl text-slate-800 px-2">
+      <div class="flex justify-center items-center py-2 border-b-3 border-b-slate-300">
+        <h2 class="font-vazir font-bold text-2xl">داشبورد ادمین فبریک</h2>
+      </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="py-3 grid gap-4">
+      <div class="input-group">
+        <input id="email" type="text" placeholder=" " formControlName="email">
+        <label for="email">نام کاربری</label>
+        <app-input-errors [control]="loginForm.get('email')" ></app-input-errors>
+      </div>
+      <div class="input-group">
+        <input id="password" [type]="showPass()?'text':'password'" placeholder=" " formControlName="password">
+        <label for="password">رمز عبور</label>
+        <button type="button" (click)="changeShowPass()"  class="btn-pass">
+          @if(showPass()){
+            <ng-icon name="bootstrapEyeSlash"></ng-icon>
+          } @else {
+            <ng-icon name="bootstrapEye"></ng-icon>
+          }
+        </button>
+        <app-input-errors [control]="loginForm.get('password')" ></app-input-errors>
+      </div>
+      <button
+        type="submit"
+        class="py-2 text-white bg-slate-800 w-full rounded-xl hover:bg-slate-900 hover:scale-[1.01] transition-all">
+        ورود
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,181 @@
+@if (loading()) {
+  <app-loading></app-loading>
+} @else if (error()) {
+  <app-alert type="error">
+    <p message> خطا در گرفتن اطلاعات محصول</p>
+  </app-alert>
+} @else if (product) {
+  <div class="">
+    <page-header title="مشخصات محصول"></page-header>
+    <div class="flex flex-wrap gap-4">
+      <div class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12">
+        <div class="sticky top-3">
+          <div class="relative">
+            <app-image-slider [images]="product.images"></app-image-slider>
+            @if (product.discount.active) {
+              <div class="absolute top-2 right-2 bg-red-500 text-white px-2 rounded">
+                {{ product.discount.percent.toLocaleString('fa') }}%
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex-1 flex flex-col justify-between text-gray-500 bg-slate-100 p-3 md:p-5 xl:p-8  rounded-xl shadow-lg">
+        <div>
+          <h2 class="text-2xl text-black">
+            {{ product.name }}
+          </h2>
+          <div class=" my-2 flex gap-1 items-center">
+            <span class="text-lg">
+               <app-print-star [count]="product.ratingAvg"/>
+            </span>
+            <div class="text-sm">
+              (
+              <span>{{ product.ratingAvg.toLocaleString('fa') }}</span>
+              <span>از</span>
+              <span>{{ product.ratingCount.toLocaleString('fa') }}</span>
+              <span>نظر</span>
+              )
+            </div>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-x-4 gap-y-2">
+            <div class="flex gap-1">
+              <div class="flex items-center gap-1">
+                <ng-icon class="mt-0.5" name="bootstrapTag"/>
+                <span>کد :</span>
+              </div>
+              <span>{{ product.slug }}</span>
+            </div>
+            <div class="flex gap-1">
+              <div class="flex items-start gap-1">
+                <ng-icon class="mt-0.5" name="ionBriefcaseSharp"/>
+                <span>برند :</span>
+              </div>
+              <span>{{ product.brand }}</span>
+            </div>
+            <div class="flex gap-1">
+              <div class="flex items-center gap-1">
+                <ng-icon class="" name="ionColorPalette"/>
+                <span>رنگ :</span>
+              </div>
+              <span>{{ product.colorName }}</span>
+            </div>
+            <div class="flex gap-1">
+              <div class="flex items-start gap-1">
+                <ng-icon class="mt-0.5" name="bootstrapRulers"/>
+                <span>الگو :</span>
+              </div>
+              <span>{{ product.pattern }}</span>
+            </div>
+          </div>
+          <div class="my-2">
+            <div class="flex gap-1">
+              <span>عرض :</span>
+              <span class="flex">
+                <span>cm</span>
+                <span>{{ product.widthCm.toLocaleString('fa') }}</span>
+              </span>
+            </div>
+            <div class="flex gap-1">
+              <span>ترکیبات :</span>
+              <span>{{ product.composition }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-3">
+          <div class="gap-1">
+            <span class="text-gray-600 me-1">توضیح کوتاه :</span>
+            <span>{{ product.shortDescription }}</span>
+          </div>
+          <div>
+            <span class="text-gray-600 me-1">توضیح بلند :</span>
+            <span>{{ product.description }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 mt-4 flex items-center justify-between bg-slate-100 rounded-xl shadow-lg">
+      <div>
+        <div class="text-xs font-bold text-gray-500">
+          قیمت به ازای هر متر
+        </div>
+        <div class="mt-1">
+          <span class="text-3xl">
+            {{ product.price.toLocaleString('fa') }}
+          </span>
+          <span class="text-sm font-light">
+            تومان
+          </span>
+        </div>
+        @if (product.discount.active) {
+          <del class="text-xs text-red-500">
+            {{ product.pricePerMeter.toLocaleString('fa') }}
+          </del>
+        }
+      </div>
+      <div>
+        <div class="text-green-600">
+          <span class="text-3xl font-bold">{{ product.stockMeters.toLocaleString('fa') }}</span>
+          <span class="text-sm font-light">متر</span>
+        </div>
+        <div class="text-xs font-light text-green-600">
+          <ng-icon name="ionCheckmarkOutline"/>
+          موجود در انبار
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 my-4 gap-4 ">
+      <div class="p-4 flex flex-col bg-slate-100 rounded-xl shadow-lg space-y-3">
+        <div class="flex gap-2">
+          <span class="">ویژگی ها:</span>
+          <div
+            class="text-sm flex items-center gap-2 [&>span]:bg-red-400 [&>span]:px-2 [&>span]:py-1 [&>span]:text-white [&>span]:rounded">
+            @for (f of product.finish; track $index) {
+              <span>{{ f }}</span>
+            }
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class=""> دسته بندی:</span>
+          <div
+            class="text-sm flex gap-2 [&>span]:bg-yellow-400 [&>span]:px-2 [&>span]:py-1 [&>span]:text-white [&>span]:rounded">
+            @for (f of product.categories; track f._id) {
+              <span>{{ f.name }}</span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="p-4 flex flex-col bg-slate-100 rounded-xl shadow-lg space-y-3">
+        <h3 class="text-lg flex items-center gap-1">
+          <ng-icon name="bootstrapCalendar2Date"/>
+          <span>تاریخ ها</span>
+        </h3>
+        <div class="flex gap-1">
+          <span>ایجاد:</span>
+          <span>{{ product.publishedAt | date:"short" }}</span>
+        </div>
+        <div class="flex gap-1">
+          <span>بروزرسانی:</span>
+          <span>{{ product.updatedAt | date:"short" }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="my-4 p-2  bg-slate-100 rounded-xl shadow-lg">
+     <app-comment-list [productId]="product._id" [comments]="product.comments"/>
+    </div>
+    <div class="mb-4 flex gap-3">
+      <a
+        class="block py-1 px-2 border-2 rounded-lg border-slate-700 text-slate-700 bg-slate-200 transition-all hover:bg-slate-700 hover:text-white hover:scale-110"
+        [routerLink]="['/editProduct',product.slug]"
+      >ویرایش
+      </a>
+      <button
+        (click)="deleteHandler()"
+        class="block py-1 px-2 border-2 rounded-lg border-red-500 bg-red-100 text-red-500 transition-all hover:bg-red-500 hover:text-white hover:scale-110"
+      >حذف
+      </button>
+
+    </div>
+  </div>
+}

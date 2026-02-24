@@ -1,0 +1,63 @@
+<div class="bg-slate-700 text-white rounded-lg p-4 space-y-4">
+  <div class="flex justify-between">
+    <div class="flex flex-col">
+      <div class="flex gap-2">
+        <p class="flex gap-2 items-center"><span class="text-xl">سفارش</span><span
+          class="text-sm">{{ order().orderNumber }}</span></p>
+        <div>
+          <span
+            [ngClass]="['text-xs px-1.5 py-0.5 font-light border rounded-full',statusBag().class]">
+           {{statusBag().text}}
+          </span>
+        </div>
+      </div>
+      <div class="text-gray-400 font-light text-sm">
+        <p>
+          <span>مشتری : </span>
+          <span class="">{{ order().user.name }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-col items-end">
+      <div class="flex gap-1 text-green-600 items-center">
+        <p class="text-lg">{{ order().totalPrice.toLocaleString('fa') }}</p>
+        <p class="">تومان</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400">{{ order().createdAt | jalaliDate:"DD/MMMM/YYYY HH:mm:ss" }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-9">
+    @for (item of order().items;track $index){
+      <div class="text-sm flex gap-3">
+        <div >
+          <ng-icon class="text-[10px] me-1.5" name="bootstrapSquare"></ng-icon>
+          <span>{{item.name}}</span>
+        </div>
+        <div><span>{{item.count.toLocaleString('fa')}}</span><span>متر</span></div>
+        <div>
+          <span>{{(item.price*item.count).toLocaleString('fa')}}</span><span>تومان</span>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="flex justify-between">
+    <div class="flex gap-3">
+      @if (changeStatusBtn() ) {
+        <button
+          (click)="changeStatus(changeStatusBtn()!.changeStatus)"
+          [ngClass]="['px-3 py-1 rounded-lg transition-all shadow-slate-900 hover:scale-105 hover:shadow-lg',changeStatusBtn()?.style]">
+          {{ changeStatusBtn()?.text }}
+        </button>
+      }
+      <a [routerLink]="['/order',order()._id]" class="block bg-slate-500 text-slate-800 border-2 border-slate-800 px-3 py-0.5 rounded-lg transition-all  hover:bg-slate-800 hover:text-white">جزئیات</a>
+    </div>
+    <div class="flex gap-3">
+      @if (order().processStatus!=='canceled') {
+        <button (click)="changeStatus('canceled')" class=" bg-red-50 text-red-500 border-2 border-red-500 px-3 py-0.5 rounded-lg transition-all  hover:bg-red-500 hover:text-white">لغو</button>
+      }
+      <button (click)="deleteOrderHandler()" class="bg-red-600 px-3 py-0.5 rounded-lg transition-all shadow-slate-900 hover:scale-105 hover:shadow-lg">حذف</button>
+    </div>
+  </div>
+</div>
