@@ -1,47 +1,101 @@
-import {Routes} from '@angular/router';
-import {HomePage} from './pages/home-page/home-page';
-import {ProductsPage} from './pages/products-page/products-page';
-import {AuthLayout} from './auth-layout/auth-layout';
-import {LoginPage} from './pages/login-page/login-page';
-import {MainLayout} from './main-layout/main-layout';
-import {authGuard} from './guards/auth-guard';
-import {AddProductPage} from './pages/add-product-page/add-product-page';
-import {EditProductPage} from './pages/edit-product-page/edit-product-page';
-import {CategoryPage} from './pages/category-page/category-page';
-import {ProductDetailsPage} from './pages/product-details-page/product-details-page';
-import {UsersPage} from './pages/users-page/users-page';
-import {DetailsUserPage} from './pages/details-user-page/details-user-page';
-import {CommentsPage} from './pages/comments-page/comments-page';
-import {OrdersPage} from './pages/orders-page/orders-page';
-import {OrderDetailsPage} from './pages/order-details-page/order-details-page';
-import {ManagementNavbar} from './pages/management-navbar/management-navbar';
+import { Routes } from '@angular/router';
+import { AuthLayout } from './auth-layout/auth-layout';
+import { MainLayout } from './main-layout/main-layout';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: AuthLayout,
-    children: [{ path: '', component: LoginPage }]
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/login-page/login-page').then(m => m.LoginPage),
+      },
+    ],
   },
   {
     path: '',
     component: MainLayout,
     canActivate: [authGuard],
     children: [
-      { path: '', component: HomePage },
-      { path: 'orders', component: OrdersPage },
-      { path: 'order/:id', component: OrderDetailsPage },
-      { path: 'products', component: ProductsPage },
-      { path: 'addProduct', component: AddProductPage },
-      { path: 'editProduct/:slug', component: EditProductPage },
-      { path: 'productDetails/:slug', component: ProductDetailsPage },
-      { path: 'comments', component: CommentsPage },
-      { path: 'category', component: CategoryPage },
-      { path: 'users', component: UsersPage },
-      { path: 'user/:id', component: DetailsUserPage },
-      { path: 'navbar', component: ManagementNavbar },
-    ]
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/home-page/home-page').then(m => m.HomePage),
+      },
+      {
+        path: 'orders',
+        loadComponent: () =>
+          import('./pages/orders-page/orders-page').then(m => m.OrdersPage),
+      },
+      {
+        path: 'order/:id',
+        loadComponent: () =>
+          import('./pages/order-details-page/order-details-page').then(
+            m => m.OrderDetailsPage,
+          ),
+      },
+      {
+        path: 'products',
+        loadComponent: () =>
+          import('./pages/products-page/products-page').then(m => m.ProductsPage),
+      },
+      {
+        path: 'addProduct',
+        loadComponent: () =>
+          import('./pages/add-product-page/add-product-page').then(
+            m => m.AddProductPage,
+          ),
+      },
+      {
+        path: 'editProduct/:slug',
+        loadComponent: () =>
+          import('./pages/edit-product-page/edit-product-page').then(
+            m => m.EditProductPage,
+          ),
+      },
+      {
+        path: 'productDetails/:slug',
+        loadComponent: () =>
+          import('./pages/product-details-page/product-details-page').then(
+            m => m.ProductDetailsPage,
+          ),
+      },
+      {
+        path: 'comments',
+        loadComponent: () =>
+          import('./pages/comments-page/comments-page').then(
+            m => m.CommentsPage,
+          ),
+      },
+      {
+        path: 'category',
+        loadComponent: () =>
+          import('./pages/category-page/category-page').then(m => m.CategoryPage),
+      },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('./pages/users-page/users-page').then(m => m.UsersPage),
+      },
+      {
+        path: 'user/:id',
+        loadComponent: () =>
+          import('./pages/details-user-page/details-user-page').then(
+            m => m.DetailsUserPage,
+          ),
+      },
+      {
+        path: 'navbar',
+        loadComponent: () =>
+          import('./pages/management-navbar/management-navbar').then(
+            m => m.ManagementNavbar,
+          ),
+      },
+    ],
   },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'dashboard' }
-];
 
+  { path: '**', redirectTo: '' },
+];

@@ -20,7 +20,6 @@ export class ApiAddressesUtility {
   static getUserComments:string='/user/comments/' //:userId
   static editUser:string='/user/edit/' //:userId
 
-  static addImage: string = '/upload/images';
   static categories: string = '/category/all';
 
   static getALlOrders:string = '/order/all';

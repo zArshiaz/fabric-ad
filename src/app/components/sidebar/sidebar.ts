@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input,} from '@angular/core';
 import {NgIcon} from '@ng-icons/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgClass} from '@angular/common';
